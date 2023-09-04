@@ -9,12 +9,12 @@ import (
 )
 
 func Start(port int) {
-	const apiPrefix = "/api/v1"
+	const apiPrefix = "/api/v1/"
 	router := mux.NewRouter()
 
 	router.Use(jsonContentTypeMiddleware)
 	router.PathPrefix("/").Handler(http.FileServer(http.Dir("./static/")))
-	router.HandleFunc(fmt.Sprintf("%s%s", apiPrefix, "getStationNames"), handleGetStationName).Methods("GET")
+	router.HandleFunc(apiPrefix+"getStationNames", handleGetStationName).Methods("GET")
 
 	log.Printf("Listening on localhost:%d", port)
 	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", port), router))

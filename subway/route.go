@@ -6,6 +6,7 @@ import (
 	"github.com/gorilla/mux"
 	"log"
 	"net/http"
+	"subway/utils"
 )
 
 func Start(port int) {
@@ -13,8 +14,8 @@ func Start(port int) {
 	router := mux.NewRouter()
 
 	router.Use(jsonContentTypeMiddleware)
+	router.HandleFunc(apiPrefix+"getStationNames", handleGetStationList).Methods("GET")
 	router.PathPrefix("/").Handler(http.FileServer(http.Dir("./static/")))
-	router.HandleFunc(apiPrefix+"getStationNames", handleGetStationName).Methods("GET")
 
 	log.Printf("Listening on localhost:%d", port)
 	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", port), router))
@@ -31,7 +32,11 @@ func jsonContentTypeMiddleware(next http.Handler) http.Handler {
 	})
 }
 
-func handleGetStationName(rw http.ResponseWriter, r *http.Request) {
+func handleGetStationList(rw http.ResponseWriter, r *http.Request) {
 	var names = getStationNames()
-	json.NewEncoder(rw).Encode(names)
+	var jsonNames, err = json.Marshal(names)
+	utils.HandleErr(err)
+
+	rw.WriteHeader(http.StatusOK)
+	rw.Write(jsonNames)
 }

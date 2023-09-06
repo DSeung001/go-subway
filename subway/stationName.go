@@ -5,7 +5,7 @@ import (
 	"subway/utils"
 )
 
-const resourceDirPath = "/resource"
+const resourceDirPath = "subway/resource"
 
 func getStationNames() []string {
 	var fileNames []string

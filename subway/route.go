@@ -37,6 +37,8 @@ func handleGetStationList(rw http.ResponseWriter, r *http.Request) {
 	var jsonNames, err = json.Marshal(names)
 	utils.HandleErr(err)
 
+	getStationList()
+
 	rw.WriteHeader(http.StatusOK)
 	rw.Write(jsonNames)
 }

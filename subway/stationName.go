@@ -7,7 +7,7 @@ import (
 	"subway/utils"
 )
 
-const resourceDirPath = "subway/resource"
+const resourceDirPath = "subway/resource_xlsx"
 
 func getStationList() {
 	names := getStationNames()
@@ -26,7 +26,7 @@ func getStationList() {
 		}()
 
 		// 시트명을 역명으로 내용 읽기
-		rows, err := file.GetRows("역명")
+		rows, err := file.GetRows("역명")
 		utils.HandleErr(err)
 		for _, row := range rows {
 			for _, colCell := range row {
